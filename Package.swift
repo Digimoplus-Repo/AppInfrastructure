@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "AppInfrastructure",
+    platforms: [.iOS(.v14)],
     products: [
         .library(
             name: "AppInfrastructure",
