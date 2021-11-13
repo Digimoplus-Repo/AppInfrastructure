@@ -18,7 +18,7 @@ open class ViewWrapperCell<T: UIView>: UICollectionViewCell {
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
