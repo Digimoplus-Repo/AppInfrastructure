@@ -1,47 +1,27 @@
 import UIKit
 
+public protocol FontStyle {
+    var size: CGFloat { get }
+    var weight: UIFont.Weight { get }
+    var name: String? { get }
+}
+
 extension UIFont {
-    enum Style {
-        case title
-        case titleBold
-        case subTitle
-        case subTitleBold
-
-        var size: CGFloat {
-            switch self {
-            case .subTitle:
-                return 12
-            case .subTitleBold:
-                return 12
-            case .title:
-                return 16
-            case .titleBold:
-                return 16
-            }
-        }
-
-        var weight: UIFont.Weight {
-            switch self {
-            case .title:
-                return .regular
-            case .titleBold:
-                return .bold
-            case .subTitle:
-                return .regular
-            case .subTitleBold:
-                return .bold
-            }
-        }
-    }
-
-    static func withStyle(_ style: Style) -> UIFont {
+    private static func systemFontWithStyle(_ style: FontStyle) -> UIFont {
         .systemFont(
             ofSize: style.size,
             weight: style.weight
         )
     }
 
-    static func withSize(_ size: CGFloat, weight: UIFont.Weight) -> UIFont {
+    static public func withStyle(_ style: FontStyle) -> UIFont {
+        if let name = style.name, let font = UIFont(name: name, size: style.size) {
+            return font
+        }
+        return systemFontWithStyle(style)
+    }
+
+    static public func withSize(_ size: CGFloat, weight: UIFont.Weight) -> UIFont {
         .systemFont(
             ofSize: size,
             weight: weight

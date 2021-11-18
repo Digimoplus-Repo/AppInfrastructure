@@ -8,16 +8,18 @@ extension UIView {
 }
 
 open class CardViewController: UIViewController {
-    private var collectionView: UICollectionView
-    private var viewModel: AppViewModel
+    open var defaultBackground: UIColor { .background }
+    public var collectionView: UICollectionView
 
-    var cards: [Card] = [] {
+    public var onDestroy: (() -> ())?
+
+    public var cards: [Card] = [] {
         didSet {
             sections = [cards]
         }
     }
 
-    var sections: [[Card]] = [] {
+    public var sections: [[Card]] = [] {
         didSet {
             var uniqueCards = [Card]()
             sections.forEach { cards in
@@ -37,16 +39,13 @@ open class CardViewController: UIViewController {
         }
     }
 
-    public init(_ viewModel: AppViewModel) {
-        self.viewModel = viewModel
+    public init() {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewFlowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         collectionViewFlowLayout.scrollDirection = .vertical
         collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: collectionViewFlowLayout)
         super.init(nibName: nil, bundle: nil)
-
         initializeUI()
-        bindViewModel()
     }
 
     @available(*, unavailable)
@@ -54,22 +53,8 @@ open class CardViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func bindViewModel() {
-        viewModel.showLoader.bind { value in
-            print("Loader \(value ? "Start" : "Stop")")
-        }
-
-        viewModel.successAlert.bind { value in
-            print("Success Alert: \(value ?? "")")
-        }
-
-        viewModel.errorAlert.bind { value in
-            print("Error Alert: \(value ?? "")")
-        }
-    }
-
-    private func initializeUI() {
-        view.backgroundColor = .background
+    public func initializeUI() {
+        view.backgroundColor = defaultBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.isScrollEnabled = true
@@ -90,6 +75,7 @@ open class CardViewController: UIViewController {
     }
 
     deinit {
+        onDestroy?()
         print("👉 Deinit \(type(of: self))")
     }
 }

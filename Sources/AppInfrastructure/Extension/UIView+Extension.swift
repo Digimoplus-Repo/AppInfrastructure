@@ -1,7 +1,7 @@
 import UIKit
 
 extension UIView {
-    func pin(to view: UIView, insets: UIEdgeInsets = .zero) {
+    public func pin(to view: UIView, insets: UIEdgeInsets = .zero) {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets.left),
             trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets.right),
@@ -10,14 +10,14 @@ extension UIView {
         ])
     }
 
-    func pinToSuperview(withInsets insets: UIEdgeInsets = UIEdgeInsets()) {
+    public func pinToSuperview(withInsets insets: UIEdgeInsets = UIEdgeInsets()) {
         guard let superview = superview else { return }
         pin(to: superview, insets: insets)
     }
 }
 
 extension UIView {
-    func shake(_ duration: CGFloat = 0.6) {
+    public func shake(_ duration: CGFloat = 0.6) {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         animation.duration = duration

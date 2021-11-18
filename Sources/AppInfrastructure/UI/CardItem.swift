@@ -8,7 +8,9 @@ public protocol Card {
 open class CardItem<T: UICollectionViewCell>: Card {
     public var cellType: UICollectionViewCell.Type = T.self
 
-    public func cellFor(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public init() {}
+
+    open func cellFor(_ collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell: T = collectionView.dequeueReusableCell(for: indexPath)
         return cell
     }

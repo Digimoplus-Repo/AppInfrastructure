@@ -9,7 +9,7 @@ public extension Identifiable {
 }
 
 extension UICollectionView {
-    func dequeueReusableCell<T: UICollectionViewCell>(
+    public func dequeueReusableCell<T: UICollectionViewCell>(
         withReuseIdentifier identifier: String = T.identifier(),
         for indexPath: IndexPath
     ) -> T {
